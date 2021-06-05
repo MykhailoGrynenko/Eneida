@@ -1,0 +1,37 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block content %}
+{% for Category in Category %}
+
+
+	<div class="mylist">
+        <ul class="list-group">
+            <li class="list-group-item p-4 my-1">
+				<a href="{% url 'audiobooks-categoryOne' Category.slug %}">{{ Category.title }}</a>
+			</li>
+        </ul>
+    </div>
+
+
+{% endfor %}
+
+                {% if Category.has_previous %}
+					<a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+					<a class="btn btn-outline-info mb-4" href="?page={{ Category.previous_page_number }}">Previous</a>
+				{% endif %}
+
+				{% for num in Category.paginator.page_range %}
+					{% if Category.number == num %}
+						<a class="btn btn-info mb-4" href="?page={{num}}">{{ num }}</a>
+					{% elif num > Category.number|add:'-3' and num < Category.number|add:'3' %}
+						<a class="btn btn-outline-info mb-4" href="?page={{num}}">{{ num }}</a>
+					{% endif %}
+				{% endfor %}
+
+				{% if Category.has_next %}
+					<a class="btn btn-outline-info mb-4" href="?page={{ Audiobook.next_page_number }}">Next</a>
+					<a class="btn btn-outline-info mb-4" href="?page={{ Audiobook.paginator.num_pages }}">Last</a>
+				{% endif %}
+
+{% endblock content %}

@@ -1,0 +1,33 @@
+{% extends "_base.html" %}
+{% block content %}
+{% for Audiobook in Audiobook %}
+
+
+
+
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ Audiobook.youtube_code }}" title="YouTube video player" allowfullscreen></iframe>
+        </div>
+
+
+
+
+        <!-- Book Description -->
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="mybox2">
+                        <h1>Description text goes here</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+{% endfor %}
+
+
+
+
+
+{% endblock content %}

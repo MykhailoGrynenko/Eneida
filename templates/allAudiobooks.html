@@ -1,0 +1,69 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block content %}
+{% for Audiobook in Audiobook %}
+
+
+	<div class="mylist">
+        <ul class="list-group">
+            <li class="list-group-item p-4 my-1">
+				<div class="row">
+					<div class="col-12 col-md-10">
+						<a href="{% url 'singleAudiobook' Audiobook.slug %}">{{ Audiobook.title }}</a>
+					</div>
+					<div class="col-12 col-md-2">
+						<a href="https://www.youtube.com/watch?v={{ Audiobook.youtube_code }}">
+							<img src="{% static 'images/YouTube_button1.png' %}" title="Доступно на Youtube"
+								 width="100px" alt="Дивитись на YouTube">
+						</a>
+					</div>
+				</div>
+			</li>
+        </ul>
+    </div>
+
+
+{% endfor %}
+
+    			{% if Audiobook.has_previous %}
+					<a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+					<a class="btn btn-outline-info mb-4" href="?page={{ Audiobook.previous_page_number }}">Previous</a>
+				{% endif %}
+
+				{% for num in Audiobook.paginator.page_range %}
+					{% if Audiobook.number == num %}
+						<a class="btn btn-info mb-4" href="?page={{num}}">{{ num }}</a>
+					{% elif num > Audiobook.number|add:'-3' and num < Audiobook.number|add:'3' %}
+						<a class="btn btn-outline-info mb-4" href="?page={{num}}">{{ num }}</a>
+					{% endif %}
+				{% endfor %}
+
+				{% if Audiobook.has_next %}
+					<a class="btn btn-outline-info mb-4" href="?page={{ Audiobook.next_page_number }}">Next</a>
+					<a class="btn btn-outline-info mb-4" href="?page={{ Audiobook.paginator.num_pages }}">Last</a>
+				{% endif %}
+
+
+
+
+
+				{% if Category.has_previous %}
+					<a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+					<a class="btn btn-outline-info mb-4" href="?page={{ Category.previous_page_number }}">Previous</a>
+				{% endif %}
+
+				{% for num in Category.paginator.page_range %}
+					{% if Category.number == num %}
+						<a class="btn btn-info mb-4" href="?page={{num}}">{{ num }}</a>
+					{% elif num > Category.number|add:'-3' and num < Category.number|add:'3' %}
+						<a class="btn btn-outline-info mb-4" href="?page={{num}}">{{ num }}</a>
+					{% endif %}
+				{% endfor %}
+
+				{% if Category.has_next %}
+					<a class="btn btn-outline-info mb-4" href="?page={{ Category.next_page_number }}">Next</a>
+					<a class="btn btn-outline-info mb-4" href="?page={{ Category.paginator.num_pages }}">Last</a>
+				{% endif %}
+
+{% endblock content %}
