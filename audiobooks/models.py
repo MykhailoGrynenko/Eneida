@@ -1,7 +1,6 @@
 
 from django.db import models
-from django.utils import timezone
-# from PIL import Image
+
 
 
 class Category(models.Model):
@@ -20,19 +19,29 @@ class Category(models.Model):
     #     return reverse('audiobooks-categoryOne', args=[str(self.slug)])
 
 
+class Series(models.Model):
+    title = models.CharField(max_length=30)
+    slug = models.SlugField(default='', editable=True, max_length=100, null=False, blank=True)
+    categories = models.ManyToManyField(Category, blank=True)
+    description = models.TextField(blank=True)  # null=True
+
+    class Meta:
+        verbose_name_plural = "series"
+        ordering = ['title']
+
+    def __str__(self):
+        return self.title
+
+
 class Audiobook(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)  # null=True
     youtube_code = models.CharField(max_length=20)
-    # video_url = models.URLField(max_length=200, blank=True)
-    # image = models.ImageField(default='default.jpg', upload_to='audiobook_pics')
-    categories = models.ManyToManyField(Category, blank=True)
-    pub_date = models.DateTimeField('date created')
     slug = models.SlugField(default='', editable=True, max_length=100, null=False, blank=True)
-    show = models.BooleanField(default=True, null=True)
+    series = models.ForeignKey(Series, on_delete=models.CASCADE)
 
-    def was_published(self):
-        return self.pub_date >= timezone.now()
+    # def was_published(self):
+    #     return self.pub_date >= timezone.now()
 
     class Meta:
         ordering = ['title']

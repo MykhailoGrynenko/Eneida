@@ -2,13 +2,13 @@
 {% load static %}
 
 {% block content %}
-{% for Category in Category %}
+{% for Series in Category %}
 
 
 	<div class="mylist">
         <ul class="list-group">
             <li class="list-group-item p-4 my-1">
-				<a href="{% url 'audiobooks-categoryOne' Category.slug %}">{{ Category.title }}</a>
+				<a href="{% url 'audiobooks-categoryOne' Series.slug %}">{{ Series.title }}</a>
 			</li>
         </ul>
     </div>

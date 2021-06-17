@@ -1,0 +1,42 @@
+{% extends "_base.html" %}
+{% load static %}
+
+{% block content %}
+{% for Series in Series %}
+
+    <div class="mylist">
+        <ul class="list-group">
+            <li class="list-group-item p-4 my-1">
+				<div class="row">
+					<div class="col-12 col-md-10">
+						<a href="{% url 'allAudiobooks' Series.slug %}">{{ Series.title }}</a>
+					</div>
+				</div>
+			</li>
+        </ul>
+    </div>
+
+
+{% endfor %}
+
+    			{% if Series.has_previous %}
+					<a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+					<a class="btn btn-outline-info mb-4" href="?page={{ Series.previous_page_number }}">Previous</a>
+				{% endif %}
+
+				{% for num in Series.paginator.page_range %}
+					{% if Series.number == num %}
+						<a class="btn btn-info mb-4" href="?page={{num}}">{{ num }}</a>
+					{% elif num > Series.number|add:'-3' and num < Series.number|add:'3' %}
+						<a class="btn btn-outline-info mb-4" href="?page={{num}}">{{ num }}</a>
+					{% endif %}
+				{% endfor %}
+
+				{% if Series.has_next %}
+					<a class="btn btn-outline-info mb-4" href="?page={{ Series.next_page_number }}">Next</a>
+					<a class="btn btn-outline-info mb-4" href="?page={{ Series.paginator.num_pages }}">Last</a>
+				{% endif %}
+
+
+
+{% endblock content %}
